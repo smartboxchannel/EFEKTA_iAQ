@@ -252,7 +252,7 @@ const definition = {
 			exposes.numeric('temperature_offset', ea.STATE_SET).withUnit('°C').withValueStep(0.1).withDescription('Adjust temperature')
                 .withValueMin(-50.0).withValueMax(50.0),
             exposes.numeric('humidity_offset', ea.STATE_SET).withUnit('%').withDescription('Adjust humidity')
-                .withValueMin(0).withValueMax(99),
+                .withValueMin(-50).withValueMax(50),
 			exposes.binary('forced_recalibration', ea.STATE_SET, 'ON', 'OFF')
 			    .withDescription('Start FRC (Perform Forced Recalibration of the CO2 Sensor)'),
 			exposes.binary('factory_reset_co2', ea.STATE_SET, 'ON', 'OFF').withDescription('Factory Reset CO2 sensor'),
