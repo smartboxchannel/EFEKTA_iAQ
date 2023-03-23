@@ -40,12 +40,13 @@ const tzLocal = {
         },
     },
 	co2_config: {
-        key: ['auto_brightness', 'forced_recalibration', 'factory_reset_co2', 'long_chart_period', 'set_altitude', 'manual_forced_recalibration'],
+        key: ['auto_brightness', 'onoff_brightness', 'forced_recalibration', 'factory_reset_co2', 'long_chart_period', 'set_altitude', 'manual_forced_recalibration'],
         convertSet: async (entity, key, rawValue, meta) => {
             const lookup = {'OFF': 0x00, 'ON': 0x01};
             const value = lookup.hasOwnProperty(rawValue) ? lookup[rawValue] : parseInt(rawValue, 10);
             const payloads = {
                 auto_brightness: ['msCO2', {0x0203: {value, type: 0x10}}],
+				onoff_brightness: ['msCO2', {0x0401: {value, type: 0x10}}],
                 forced_recalibration: ['msCO2', {0x0202: {value, type: 0x10}}],
                 factory_reset_co2: ['msCO2', {0x0206: {value, type: 0x10}}],
 				long_chart_period: ['msCO2', {0x0204: {value, type: 0x10}}],
@@ -152,6 +153,9 @@ const fzLocal = {
             if (msg.data.hasOwnProperty(0x0203)) {
                 result.auto_brightness = ['OFF', 'ON'][msg.data[0x0203]];
             }
+			if (msg.data.hasOwnProperty(0x0401)) {
+                result.onoff_brightness = ['OFF', 'ON'][msg.data[0x0401]];
+            }
             if (msg.data.hasOwnProperty(0x0202)) {
                 result.forced_recalibration = ['OFF', 'ON'][msg.data[0x0202]];
             }
@@ -244,6 +248,8 @@ const definition = {
         exposes: [e.co2(), e.temperature(), e.humidity(), e.illuminance_lux(), e.illuminance(),
             exposes.binary('auto_brightness', ea.STATE_SET, 'ON', 'OFF')
 			    .withDescription('Enable or Disable Auto Brightness of the Display'),
+		    exposes.binary('onoff_brightness', ea.STATE_SET, 'ON', 'OFF')
+			    .withDescription('Complete shutdown of the backlight at night'),
 			exposes.binary('long_chart_period', ea.STATE_SET, 'ON', 'OFF')
 			    .withDescription('The period of plotting the CO2 level(OFF - 1H | ON - 24H)'),
 			exposes.numeric('set_altitude', ea.STATE_SET).withUnit('meters')
@@ -252,7 +258,7 @@ const definition = {
 			exposes.numeric('temperature_offset', ea.STATE_SET).withUnit('°C').withValueStep(0.1).withDescription('Adjust temperature')
                 .withValueMin(-50.0).withValueMax(50.0),
             exposes.numeric('humidity_offset', ea.STATE_SET).withUnit('%').withDescription('Adjust humidity')
-                .withValueMin(-50).withValueMax(50),
+                .withValueMin(0).withValueMax(99),
 			exposes.binary('forced_recalibration', ea.STATE_SET, 'ON', 'OFF')
 			    .withDescription('Start FRC (Perform Forced Recalibration of the CO2 Sensor)'),
 			exposes.binary('factory_reset_co2', ea.STATE_SET, 'ON', 'OFF').withDescription('Factory Reset CO2 sensor'),
