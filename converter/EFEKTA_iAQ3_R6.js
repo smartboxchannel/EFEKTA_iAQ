@@ -241,28 +241,28 @@ const definition = {
                 'genTime', 'msTemperatureMeasurement', 'msRelativeHumidity', 'msCO2']);
 		    await reporting.bind(endpoint2, coordinatorEndpoint, ['msIlluminanceMeasurement', 'genAnalogInput', 'msTemperatureMeasurement', 'msRelativeHumidity']);
 			const payload1 = [{attribute: {ID: 0x0000, type: 0x39},
-            minimumReportInterval: 20, maximumReportInterval: 300, reportableChange: 0}];
+            minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
             await endpoint.configureReporting('msCO2', payload1);
 			const payload2 = [{attribute: {ID: 0x0000, type: 0x29},
-            minimumReportInterval: 20, maximumReportInterval: 300, reportableChange: 0}];
+            minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
             await endpoint.configureReporting('msTemperatureMeasurement', payload2);
 			const payload3 = [{attribute: {ID: 0x0000, type: 0x21},
-            minimumReportInterval: 40, maximumReportInterval: 300, reportableChange: 0}];
+            minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
 			await endpoint.configureReporting('msRelativeHumidity', payload3);
 			const payload4 = [{attribute: {ID: 0x0055, type: 0x39},
-            minimumReportInterval: 20, maximumReportInterval: 300, reportableChange: 0}];
+            minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
 			await endpoint2.configureReporting('genAnalogInput', payload4);
 			const payload5 = [{attribute: {ID: 0x0065, type: 0x39},
-            minimumReportInterval: 20, maximumReportInterval: 300, reportableChange: 0}];
+            minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
 			await endpoint2.configureReporting('genAnalogInput', payload5);
 			const payload6 = [{attribute: {ID: 0x0000, type: 0x21},
-            minimumReportInterval: 30, maximumReportInterval: 300, reportableChange: 0}];
+            minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
 			await endpoint2.configureReporting('msIlluminanceMeasurement', payload6);
 			const payload7 = [{attribute: {ID: 0x0000, type: 0x29},
-            minimumReportInterval: 20, maximumReportInterval: 300, reportableChange: 0}];
+            minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
             await endpoint2.configureReporting('msTemperatureMeasurement', payload7);
 			const payload8 = [{attribute: {ID: 0x0000, type: 0x21},
-            minimumReportInterval: 40, maximumReportInterval: 300, reportableChange: 0}];
+            minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
 			await endpoint2.configureReporting('msRelativeHumidity', payload8);
         },
         exposes: [e.co2(), 
