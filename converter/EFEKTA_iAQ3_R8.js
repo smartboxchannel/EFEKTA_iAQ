@@ -52,6 +52,17 @@ const tzLocal = {
         },
     },
 	
+	voc_config: {
+        key: ['voc_raw_data'],
+		 convertGet: async (entity, key, meta) => {
+			const endpoint = meta.device.getEndpoint(2);
+            const payloads = {
+                voc_raw_data: ['genAnalogInput', 0x0065],
+            };
+            await endpoint.read(payloads[key][0], [payloads[key][1]]);
+        },
+    },
+	
 	temperaturef_config: {
         key: ['temperature_offset'],
         convertSet: async (entity, key, rawValue, meta) => {
@@ -232,7 +243,7 @@ const definition = {
         vendor: 'Custom devices (DiY)',
         description: '[CO2 Monitor with IPS TFT Display, outdoor temperature and humidity, date and time.](http://efektalab.com/iAQ)',
         fromZigbee: [fz.temperature, fz.humidity, fz.illuminance, fzLocal.co2, fzLocal.air_quality, fzLocal.temperaturef_config, fzLocal.humidity_config, fzLocal.co2_config, fzLocal.co2_gasstat_config],
-        toZigbee: [tz.factory_reset, tzLocal.co2_config, tzLocal.temperaturef_config, tzLocal.humidity_config, tzLocal.co2_gasstat_config],
+        toZigbee: [tz.factory_reset, tzLocal.co2_config, tzLocal.temperaturef_config, tzLocal.humidity_config, tzLocal.co2_gasstat_config, tzLocal.voc_config],
 		meta: {multiEndpoint: true},
         configure: async (device, coordinatorEndpoint, logger) => {
             const endpoint = device.getEndpoint(1);
@@ -252,9 +263,6 @@ const definition = {
 			const payload4 = [{attribute: {ID: 0x0055, type: 0x39},
             minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
 			await endpoint2.configureReporting('genAnalogInput', payload4);
-			const payload5 = [{attribute: {ID: 0x0065, type: 0x39},
-            minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
-			await endpoint2.configureReporting('genAnalogInput', payload5);
 			const payload6 = [{attribute: {ID: 0x0000, type: 0x21},
             minimumReportInterval: 0, maximumReportInterval: 300, reportableChange: 0}];
 			await endpoint2.configureReporting('msIlluminanceMeasurement', payload6);
@@ -271,9 +279,9 @@ const definition = {
 			exposes.numeric('temperature', ea.STATE).withEndpoint('2').withUnit('°C').withDescription('Measured value of the external temperature sensor'),
 			exposes.numeric('humidity', ea.STATE).withEndpoint('1').withUnit('%').withDescription('Measured value of the built-in humidity sensor'),
 			exposes.numeric('humidity', ea.STATE).withEndpoint('2').withUnit('%').withDescription('Measured value of the external humidity sensor'),
-			e.illuminance_lux(), e.illuminance(),
 		    exposes.numeric('voc_index', ea.STATE).withUnit('VOC Index points').withDescription('VOC INDEX'),
-            exposes.numeric('voc_raw_data', ea.STATE).withUnit('ticks').withDescription('SRAW_VOC, digital raw value'),
+            exposes.numeric('voc_raw_data', ea.STATE_GET).withUnit('ticks').withDescription('SRAW_VOC, digital raw value'),
+			e.illuminance_lux(), e.illuminance(),
             exposes.binary('auto_brightness', ea.STATE_SET, 'ON', 'OFF')
 			    .withDescription('Enable or Disable Auto Brightness of the Display'),
 		    exposes.binary('night_onoff_backlight', ea.STATE_SET, 'ON', 'OFF')
