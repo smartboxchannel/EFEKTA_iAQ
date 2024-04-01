@@ -7,7 +7,6 @@ const e = exposes.presets;
 const ea = exposes.access;
 const {calibrateAndPrecisionRoundOptions} = require('zigbee-herdsman-converters/lib/utils');
 
-
 const tzLocal = {
     node_config: {
         key: ['report_delay'],
