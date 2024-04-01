@@ -7,6 +7,7 @@ const e = exposes.presets;
 const ea = exposes.access;
 const {calibrateAndPrecisionRoundOptions} = require('zigbee-herdsman-converters/lib/utils');
 
+
 async function onEventSetLocalTime(type, data, device) {
  
     if (data.type === 'attributeReport' && data.cluster === 'genTime') {
