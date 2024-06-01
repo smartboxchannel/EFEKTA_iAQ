@@ -1,0 +1,470 @@
+{
+  "name": "EFEKTA_iAQ3",
+  "manufacturer": "EfektaLab",
+  "model": "EFEKTA_iAQ3",
+  "manufacturerId": "EfektaLab",
+  "modelId": "EFEKTA_iAQ3",
+  "catalogId": -1,
+  "status": "Test",
+  "init": [
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "0402_TemperatureMeasurement",
+        "attribute": "0000_MeasuredValue"
+      },
+      "bind": true,
+      "report": {
+        "min": 30,
+        "max": 3600,
+        "change": 10
+      }
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "0405_RelativeHumidityMeasurement",
+        "attribute": "0000_MeasuredValue"
+      },
+      "bind": true,
+      "report": {
+        "min": 30,
+        "max": 3600,
+        "change": 10
+      }
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0000_MeasuredValue"
+      },
+      "bind": true,
+      "report": {
+        "min": 30,
+        "max": 3600,
+        "change": 0
+      }
+    },
+    {
+      "link": {
+        "endpoint": 2,
+        "cluster": "000C_AnalogInputBasic",
+        "attribute": "0055_PresentValue"
+      },
+      "bind": true,
+      "report": {
+        "min": 30,
+        "max": 3600,
+        "change": 0
+      }
+    },
+    {
+      "link": {
+        "endpoint": 2,
+        "cluster": "0400_IlluminanceMeasurement",
+        "attribute": "0000_MeasuredValue"
+      },
+      "bind": true,
+      "report": {
+        "min": 30,
+        "max": 3600,
+        "change": 1
+      }
+    },
+    {
+      "link": {
+        "endpoint": 2,
+        "cluster": "0402_TemperatureMeasurement",
+        "attribute": "0000_MeasuredValue"
+      },
+      "bind": true,
+      "report": {
+        "min": 30,
+        "max": 3600,
+        "change": 10
+      }
+    },
+    {
+      "link": {
+        "endpoint": 2,
+        "cluster": "0405_RelativeHumidityMeasurement",
+        "attribute": "0000_MeasuredValue"
+      },
+      "bind": true,
+      "report": {
+        "min": 30,
+        "max": 3600,
+        "change": 10
+      }
+    }
+  ],
+  "services": [
+    {
+      "type": "CarbonDioxideSensor",
+      "logics": [
+        {
+          "type": "CarbonDioxideDetectedFromCarbonDioxideLevel"
+        }
+      ],
+      "characteristics": [
+        {
+          "type": "CarbonDioxideLevel",
+          "link": [
+            {
+              "endpoint": 1,
+              "cluster": "040D_CarbonDioxide",
+              "attribute": "0000_MeasuredValue"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "TemperatureSensor",
+      "characteristics": [
+        {
+          "type": "CurrentTemperature",
+          "link": {
+            "endpoint": 1,
+            "cluster": "0402_TemperatureMeasurement",
+            "attribute": "0000_MeasuredValue"
+          }
+        }
+      ]
+    },
+    {
+      "type": "HumiditySensor",
+      "characteristics": [
+        {
+          "type": "CurrentRelativeHumidity",
+          "link": {
+            "endpoint": 1,
+            "cluster": "0405_RelativeHumidityMeasurement",
+            "attribute": "0000_MeasuredValue"
+          }
+        }
+      ]
+    },
+    {
+      "type": "AirQualitySensor",
+      "logics": [
+        {
+          "type": "AirQualityFromVOCDensity"
+        }
+      ],
+      "characteristics": [
+        {
+          "type": "VOCDensity",
+          "link": [
+            {
+              "endpoint": 2,
+              "cluster": "000C_AnalogInputBasic",
+              "attribute": "0055_PresentValue"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TemperatureSensor E2",
+      "type": "TemperatureSensor",
+      "characteristics": [
+        {
+          "type": "CurrentTemperature",
+          "link": {
+            "endpoint": 2,
+            "cluster": "0402_TemperatureMeasurement",
+            "attribute": "0000_MeasuredValue"
+          }
+        }
+      ]
+    },
+    {
+      "name": "HumiditySensor E2",
+      "type": "HumiditySensor",
+      "characteristics": [
+        {
+          "type": "CurrentRelativeHumidity",
+          "link": {
+            "endpoint": 2,
+            "cluster": "0405_RelativeHumidityMeasurement",
+            "attribute": "0000_MeasuredValue"
+          }
+        }
+      ]
+    },
+    {
+      "type": "LightSensor",
+      "characteristics": [
+        {
+          "type": "CurrentAmbientLightLevel",
+          "link": {
+            "endpoint": 2,
+            "cluster": "0400_IlluminanceMeasurement",
+            "attribute": "0000_MeasuredValue"
+          }
+        }
+      ]
+    }
+  ],
+  "options": [
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "0402_TemperatureMeasurement",
+        "attribute": "0210_Custom"
+      },
+      "name": "Корректировка температуры",
+      "type": "Double",
+      "init": false,
+      "value": 0,
+      "minValue": -50,
+      "maxValue": 50,
+      "minStep": 0.1
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "0405_RelativeHumidityMeasurement",
+        "attribute": "0210_Custom"
+      },
+      "name": "Корректировка влажности",
+      "type": "Double",
+      "init": false,
+      "value": 0,
+      "minValue": -50,
+      "maxValue": 50
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0203_Custom"
+      },
+      "name": "Включение адаптивной подсветки дисплея",
+      "type": "Boolean",
+      "init": false,
+      "value": true
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0401_Custom"
+      },
+      "name": "Включение ночного режима",
+      "type": "Boolean",
+      "init": false,
+      "value": false
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0405_Custom"
+      },
+      "name": "Установка начала работы ночного режима",
+      "type": "Integer",
+      "init": false,
+      "value": 22,
+      "minValue": 0,
+      "maxValue": 23
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0406_Custom"
+      },
+      "name": "Установка конца работы ночного режима",
+      "type": "Integer",
+      "init": false,
+      "value": 6,
+      "minValue": 0,
+      "maxValue": 23
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0285_Custom"
+      },
+      "name": "Поворот дисплея",
+      "description": "",
+      "type": "Integer",
+      "init": true,
+      "value": 0,
+      "values": [
+        {
+          "value": 0,
+          "name": "0º"
+        },
+        {
+          "value": 90,
+          "name": "90º"
+        },
+        {
+          "value": 180,
+          "name": "180º"
+        },
+        {
+          "value": 270,
+          "name": "270º"
+        }
+      ]
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0204_Custom"
+      },
+      "name": "Режим построения графика для данных СО2",
+      "type": "Boolean",
+      "init": false,
+      "value": "true"
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0404_Custom"
+      },
+      "name": "Режим построения графика для данных VOC",
+      "type": "Boolean",
+      "init": false,
+      "value": "true"
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0288_Custom"
+      },
+      "name": "Вывод данных температуры и влажности на дисплей",
+      "type": "Boolean",
+      "init": false,
+      "value": true
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0402_Custom"
+      },
+      "name": "Включение автокалибровки датчика CO2",
+      "type": "Boolean",
+      "init": false,
+      "value": true
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0202_Custom"
+      },
+      "name": "Принудительная калибровка датчика CO2 на атмосферный уровень CO2",
+      "type": "Boolean",
+      "init": false,
+      "value": false
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0206_Custom"
+      },
+      "name": "Сброс калибровки датчика CO2 на заводские настройки",
+      "type": "Boolean",
+      "init": false,
+      "value": false
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0207_Custom"
+      },
+      "name": "Установка значения с другого СО2 датчика",
+      "type": "Integer",
+      "init": false,
+      "value": 0,
+      "minValue": 0,
+      "maxValue": 5000
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0205_Custom"
+      },
+      "name": "Установка высоты над уровнем моря",
+      "type": "Integer",
+      "init": false,
+      "value": 0,
+      "minValue": 0,
+      "maxValue": 3000
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0220_Custom"
+      },
+      "name": "Газостат СО2",
+      "type": "Boolean",
+      "init": false,
+      "value": false
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0225_Custom"
+      },
+      "name": "Газостат СО2, Инвертирование",
+      "type": "Boolean",
+      "init": false,
+      "value": false
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0221_Custom"
+      },
+      "name": "Газостат СО2, верхняя граница",
+      "type": "Integer",
+      "init": false,
+      "value": 1,
+      "minValue": 400,
+      "maxValue": 2000
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "040D_CarbonDioxide",
+        "attribute": "0222_Custom"
+      },
+      "name": "Газостат СО2, нижняя граница",
+      "type": "Integer",
+      "init": false,
+      "value": 1,
+      "minValue": 400,
+      "maxValue": 2000
+    },
+    {
+      "link": {
+        "endpoint": 1,
+        "cluster": "0006_OnOff",
+        "output": true
+      },
+      "name": "Прямая работа вкл/выкл",
+      "description": "Работает биндинг только одного параметра.",
+      "type": "String",
+      "bind": true,
+      "bindGroup": true
+    }
+  ]
+}
