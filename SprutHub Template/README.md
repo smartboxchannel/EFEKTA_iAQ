@@ -13,4 +13,8 @@ Sprut.hub Wiki | Добавление кастомных шаблонов - http
 
 ![EFEKTA iAQ3](https://raw.githubusercontent.com/smartboxchannel/EFEKTA_iAQ/main/SprutHub%20Template/images/5.jpg) 
 
+![EFEKTA iAQ3](https://raw.githubusercontent.com/smartboxchannel/EFEKTA_iAQ/main/SprutHub%20Template/images/7.jpg) 
+
+![EFEKTA iAQ3](https://raw.githubusercontent.com/smartboxchannel/EFEKTA_iAQ/main/SprutHub%20Template/images/8.jpg) 
+
 ![EFEKTA iAQ3](https://raw.githubusercontent.com/smartboxchannel/EFEKTA_iAQ/main/SprutHub%20Template/images/6.jpg) 
