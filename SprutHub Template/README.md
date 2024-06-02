@@ -2,6 +2,13 @@
 
 Sprut.hub Wiki | Добавление кастомных шаблонов - https://clck.ru/362h5z
 
+Описание:
+iAQ - https://telegra.ph/Datchik-monitoringa-uglekislogo-gaza-EFEKTA-iAQ-Zigbee-30-01-31
+
+iAQ2
+
+iAQ3 - https://telegra.ph/Datchik-monitoringa-kachestva-vozduha-iAQ-3-01-31
+
 
 ![EFEKTA iAQ3](https://raw.githubusercontent.com/smartboxchannel/EFEKTA_iAQ/main/SprutHub%20Template/images/1.jpg) 
 
