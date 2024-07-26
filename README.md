@@ -13,7 +13,7 @@ iAQ2
 iAQ3 - https://telegra.ph/Datchik-monitoringa-kachestva-vozduha-iAQ-3-01-31
 
 
-    ![EFEKTA iAQ](https://raw.githubusercontent.com/smartboxchannel/EFEKTA_iAQ/main/Images/6fd35f3feffccf0d77c29.png) 
+![EFEKTA iAQ](https://raw.githubusercontent.com/smartboxchannel/EFEKTA_iAQ/main/Images/6fd35f3feffccf0d77c29.png) 
 
 ![EFEKTA iAQ](https://raw.githubusercontent.com/smartboxchannel/EFEKTA_iAQ/main/Images/8cf93012ec1442aaf5061.png) 
 
