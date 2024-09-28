@@ -140,7 +140,7 @@ const fzLocal = {
         type: ['attributeReport', 'readResponse'],
         convert: (model, msg, publish, options, meta) => {
 			if (msg.data.hasOwnProperty('measuredValue')) {
-				return {co2: Math.round(msg.data.measuredValue * 1000000)};
+				return {co2: Math.round(msg.data.measuredValue)};
 			}
         },
     },
