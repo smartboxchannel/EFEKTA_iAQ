@@ -6,11 +6,11 @@
 
 #### Описание:
 
-iAQ - https://telegra.ph/Datchik-monitoringa-uglekislogo-gaza-EFEKTA-iAQ-Zigbee-30-01-31
+iAQ - http://efektalab.com/iAQ
 
-iAQ2
+iAQ2 - http://efektalab.com/iAQ2
 
-iAQ3 - https://telegra.ph/Datchik-monitoringa-kachestva-vozduha-iAQ-3-01-31
+iAQ3 - http://efektalab.com/iAQ3
 
 
 ![EFEKTA iAQ](https://raw.githubusercontent.com/smartboxchannel/EFEKTA_iAQ/main/Images/6fd35f3feffccf0d77c29.png) 
