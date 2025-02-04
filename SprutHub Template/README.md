@@ -7,11 +7,11 @@ Sprut.hub Wiki | Добавление кастомных шаблонов - http
 Продажа DIY Устройств - https://t.me/diydevmart
 
 Описание:
-iAQ - https://telegra.ph/Datchik-monitoringa-uglekislogo-gaza-EFEKTA-iAQ-Zigbee-30-01-31
+iAQ - http://efektalab.com/iAQ
 
-iAQ2
+iAQ2 - http://efektalab.com/iAQ2
 
-iAQ3 - https://telegra.ph/Datchik-monitoringa-kachestva-vozduha-iAQ-3-01-31
+iAQ3 - http://efektalab.com/iAQ3
 
 
 ## EFEKTA-iAQ
