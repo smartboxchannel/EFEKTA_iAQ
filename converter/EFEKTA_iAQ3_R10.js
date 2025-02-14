@@ -9,7 +9,7 @@ const {calibrateAndPrecisionRoundOptions} = require('zigbee-herdsman-converters/
 
 
 const tzLocal = {
-    node_config: {
+    PM_config: {
         key: ['report_delay'],
         convertSet: async (entity, key, rawValue, meta) => {
 			const endpoint = meta.device.getEndpoint(1);
@@ -24,12 +24,32 @@ const tzLocal = {
             };
         },
     },
-	co2_config: {
+	CO2_config: {
+        key: ['forced_recalibration', 'factory_reset_co2', 'set_altitude', 'manual_forced_recalibration', 'automatic_scal'],
+        convertSet: async (entity, key, rawValue, meta) => {
+			const endpoint = meta.device.getEndpoint(2);
+            const lookup = {'OFF': 0x00, 'ON': 0x01};
+            const value = lookup.hasOwnProperty(rawValue) ? lookup[rawValue] : parseInt(rawValue, 10);
+            const payloads = {
+                forced_recalibration: ['msCO2', {0x0202: {value, type: 0x10}}],
+				automatic_scal: ['msCO2', {0x0402: {value, type: 0x10}}],
+                factory_reset_co2: ['msCO2', {0x0206: {value, type: 0x10}}],
+                set_altitude: ['msCO2', {0x0205: {value, type: 0x21}}],
+                manual_forced_recalibration: ['msCO2', {0x0207: {value, type: 0x21}}],
+            };
+            await endpoint.write(payloads[key][0], payloads[key][1]);
+            return {
+                state: {[key]: rawValue},
+            };
+        },
+    },
+	
+	PM_config: {
         key: ['auto_brightness', 'night_onoff_backlight', 'forced_recalibration', 'factory_reset_co2', 'long_chart_period', 
 		     'long_chart_period2', 'set_altitude', 'manual_forced_recalibration', 'rotate', 'automatic_scal', 
-			 'night_on_backlight', 'night_off_backlight', 'internal_or_external'],
+			 'night_on_backlight', 'night_off_backlight', 'external_or_internal'],
         convertSet: async (entity, key, rawValue, meta) => {
-			const endpoint = meta.device.getEndpoint(1);
+			const endpoint = meta.device.getEndpoint(2);
             const lookup = {'OFF': 0x00, 'ON': 0x01};
             const value = lookup.hasOwnProperty(rawValue) ? lookup[rawValue] : parseInt(rawValue, 10);
             const payloads = {
@@ -45,7 +65,7 @@ const tzLocal = {
 				rotate: ['msCO2', {0x0285: {value, type: 0x21}}],
 				night_on_backlight: ['msCO2', {0x0405: {value, type: 0x20}}],
 				night_off_backlight: ['msCO2', {0x0406: {value, type: 0x20}}],
-				internal_or_external: ['msCO2', {0x0288: {value, type: 0x10}}],
+				external_or_internal: ['msCO2', {0x0288: {value, type: 0x10}}],
             };
             await endpoint.write(payloads[key][0], payloads[key][1]);
             return {
@@ -191,7 +211,7 @@ const fzLocal = {
                 result.rotate = msg.data[0x0285];
             }
 			if (msg.data.hasOwnProperty(0x0288)) {
-                result.internal_or_external = ['OFF', 'ON'][msg.data[0x0288]];
+                result.external_or_internal = ['OFF', 'ON'][msg.data[0x0288]];
             }
             return result;
         },
@@ -240,6 +260,20 @@ const fzLocal = {
             return result;
         },
     },
+	illuminance: {
+        cluster: 'msIlluminanceMeasurement',
+        type: ['attributeReport', 'readResponse'],
+        convert: (model, msg, publish, options, meta) => {
+            const result = {};
+            if (msg.data.hasOwnProperty('measuredValue')) {
+                const illuminance_raw = msg.data['measuredValue'];
+                const illuminance = illuminance_raw === 0 ? 0 : Math.pow(10, (illuminance_raw - 1) / 10000);
+                result.illuminance = illuminance;
+                result.illuminance_raw = illuminance_raw;
+                }
+            return result;
+        },
+    },
 };
 
 const definition = {
@@ -247,7 +281,7 @@ const definition = {
         model: 'EFEKTA_iAQ3',
         vendor: 'Efekta',
         description: '[CO2 Monitor with IPS TFT Display, outdoor temperature and humidity, date and time.](http://efektalab.com/iAQ)',
-        fromZigbee: [fz.temperature, fz.humidity, fz.illuminance, fzLocal.co2, fzLocal.air_quality, fzLocal.temperaturef_config, fzLocal.humidity_config, fzLocal.co2_config, fzLocal.co2_gasstat_config],
+        fromZigbee: [fz.temperature, fz.humidity, fzLocal.illuminance, fzLocal.co2, fzLocal.air_quality, fzLocal.temperaturef_config, fzLocal.humidity_config, fzLocal.co2_config, fzLocal.co2_gasstat_config],
         toZigbee: [tz.factory_reset, tzLocal.co2_config, tzLocal.temperaturef_config, tzLocal.humidity_config, tzLocal.co2_gasstat_config],
 		meta: {multiEndpoint: true},
         configure: async (device, coordinatorEndpoint, logger) => {
@@ -285,7 +319,7 @@ const definition = {
 			exposes.numeric('humidity', ea.STATE).withEndpoint('1').withUnit('%').withDescription('Measured value of the built-in humidity sensor'),
 			exposes.numeric('humidity', ea.STATE).withEndpoint('2').withUnit('%').withDescription('Measured value of the external humidity sensor'),
 		    exposes.numeric('voc_index', ea.STATE).withUnit('VOC Index points').withDescription('VOC INDEX'),
-			e.illuminance_lux(), e.illuminance(),
+			e.illuminance(), e.illuminance_raw(),
             exposes.binary('auto_brightness', ea.STATE_SET, 'ON', 'OFF')
 			    .withDescription('Enable or Disable Auto Brightness of the Display'),
 		    exposes.binary('night_onoff_backlight', ea.STATE_SET, 'ON', 'OFF')
@@ -306,8 +340,8 @@ const definition = {
                 .withValueMin(-50.0).withValueMax(50.0),
             exposes.numeric('humidity_offset', ea.STATE_SET).withUnit('%').withDescription('Adjust humidity')
                 .withValueMin(-50).withValueMax(50),
-			exposes.binary('internal_or_external', ea.STATE_SET, 'ON', 'OFF')
-			    .withDescription('Display data from internal or external TH sensor'),
+			exposes.binary('external_or_internal', ea.STATE_SET, 'ON', 'OFF')
+			    .withDescription('Display data from external or internal TH sensor'),
 			exposes.binary('automatic_scal', ea.STATE_SET, 'ON', 'OFF')
 			    .withDescription('Automatic self calibration'),
 			exposes.binary('forced_recalibration', ea.STATE_SET, 'ON', 'OFF')
