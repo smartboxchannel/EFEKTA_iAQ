@@ -272,7 +272,7 @@ const definition = {
 			exposes.numeric('temperature', ea.STATE).withEndpoint('2').withUnit('°C').withDescription('Measured value of the external temperature sensor'),
 			exposes.numeric('humidity', ea.STATE).withEndpoint('1').withUnit('%').withDescription('Measured value of the built-in humidity sensor'),
 			exposes.numeric('humidity', ea.STATE).withEndpoint('2').withUnit('%').withDescription('Measured value of the external humidity sensor'),
-			e.illuminance(),
+			exposes.numeric('illuminance', ea.STATE).withUnit('lx').withDescription('Illuminance in lux'),,
 			exposes.numeric('reading_interval', ea.STATE_SET).withUnit('Seconds').withDescription('Setting the sensor reading interval Setting the time in seconnds, by default 30 seconds')
                 .withValueMin(15).withValueMax(300),
             exposes.binary('auto_backlight', ea.STATE_SET, 'ON', 'OFF')
